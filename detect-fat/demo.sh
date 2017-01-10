@@ -1,0 +1,19 @@
+#########################################################
+#SqueezeNet_v1.1:model change to release
+#./bin/demo -model_convert_release models/SqueezeNet_v1.1/squeezenet_v1.1.prototxt models/SqueezeNet_v1.1/squeezenet_v1.1.caffemodel models/SqueezeNet_v1.1/squeezenet_v1.1_release_ch.dat
+
+#########################################################
+#check
+#Demo -squeezenet_check deployFile modelFile imageFile
+#./bin/demo -squeezenet_check models/SqueezeNet_v1.1/squeezenet_v1.1.prototxt models/SqueezeNet_v1.1/squeezenet_v1.1.caffemodel examples/images/cat.jpg
+
+
+#########################################################
+#detect_check
+#Demo -detect_check KeyFilePath imageFile
+#./bin/demo -detect_check 'models/' examples/images/cat.jpg
+
+#########################################################
+#detect:model change to release
+./bin/demo -model_convert_release models/mutilabel/v2.1.0/test_proposal20.pt models/mutilabel/v2.1.0/pvanet_frcnn_iter_100w.caffemodel models/mutilabel/v2.1.0/pvanet_frcnn_iter_100w_release.dat
+
