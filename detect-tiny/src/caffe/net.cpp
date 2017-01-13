@@ -31,9 +31,10 @@
 #include "caffe/fast_rcnn_layers.hpp" 
 
 
-#ifdef ANDROID_LOG
-#include <android/log.h>
-#endif
+//#include <android/log.h>
+//#define TAG    "log-jni" // 这个是自定义的LOG的标识
+//#define LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,TAG,__VA_ARGS__) // 定义LOGD类型
+
 
 //#include "caffe/proto/caffe.pb.h"
 
@@ -149,9 +150,9 @@ namespace caffe {
             return ;
         }
         
-        size_t blobs_size;
+        uint64_t blobs_size;
         int n, c, w, h;
-        blobs_size = read_real<size_t>(is);
+        blobs_size = read_real<uint64_t>(is);
         this->blob_names_.resize(blobs_size);
         for(int b = 0; b<blobs_size; b++){
             shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -170,9 +171,9 @@ namespace caffe {
         net_output_blobs_.push_back(blobs_[blobs_.size()-1].get());
         
         //
-        size_t layers_size;
-        size_t sz;
-        layers_size = read_real<size_t>(is);
+        uint64_t layers_size;
+        uint64_t sz;
+        layers_size = read_real<uint64_t>(is);
         this->layer_names_.resize(layers_size);
         this->bottom_id_vecs_.resize(layers_size);
         this->top_id_vecs_.resize(layers_size);
@@ -187,14 +188,14 @@ namespace caffe {
             read_string(is, this->layer_names_[i]);
             
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->bottom_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->bottom_id_vecs_[i][b] = read_real<int>(is);
                 this->bottom_vecs_[i].push_back( this->blobs_[this->bottom_id_vecs_[i][b]].get() );
             }
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->top_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->top_id_vecs_[i][b] = read_real<int>(is);
@@ -300,7 +301,7 @@ namespace caffe {
                 pt.bias_term = (bool)read_real<int>(is);
                 pt.kernel_dim = read_real<int>(is);
                 //
-                sz = read_real<size_t>(is);
+                sz = read_real<uint64_t>(is);
                 vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 for(int b = 0; b<sz; b++){
                     shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -340,9 +341,9 @@ namespace caffe {
             return ;
         }
         
-        size_t blobs_size;
+        uint64_t blobs_size;
         int n, c, w, h;
-        blobs_size = read_real<size_t>(is);
+        blobs_size = read_real<uint64_t>(is);
         this->blob_names_.resize(blobs_size);
         for(int b = 0; b<blobs_size; b++){
             shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -361,9 +362,9 @@ namespace caffe {
         net_output_blobs_.push_back(blobs_[blobs_.size()-1].get());
         
         //
-        size_t layers_size;
-        size_t sz;
-        layers_size = read_real<size_t>(is);
+        uint64_t layers_size;
+        uint64_t sz;
+        layers_size = read_real<uint64_t>(is);
         this->layer_names_.resize(layers_size);
         this->bottom_id_vecs_.resize(layers_size);
         this->top_id_vecs_.resize(layers_size);
@@ -378,14 +379,14 @@ namespace caffe {
             read_string(is, this->layer_names_[i]);
             
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->bottom_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->bottom_id_vecs_[i][b] = read_real<int>(is);
                 this->bottom_vecs_[i].push_back( this->blobs_[this->bottom_id_vecs_[i][b]].get() );
             }
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->top_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->top_id_vecs_[i][b] = read_real<int>(is);
@@ -492,7 +493,7 @@ namespace caffe {
                 pt.kernel_dim = read_real<int>(is);
                 //
                 //
-                //sz = read_real<size_t>(is);
+                //sz = read_real<uint64_t>(is);
                 //vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 //for(int b = 0; b<sz; b++){
                 //    shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -537,9 +538,9 @@ namespace caffe {
             return ;
         }
         
-        size_t blobs_size;
+        uint64_t blobs_size;
         int n, c, w, h;
-        blobs_size = read_real<size_t>(is);
+        blobs_size = read_real<uint64_t>(is);
         this->blob_names_.resize(blobs_size);
         for(int b = 0; b<blobs_size; b++){
             shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -563,9 +564,9 @@ namespace caffe {
 		//printf( "get blobs data end!!\n" );
         
         //
-        size_t layers_size;
-        size_t sz;
-        layers_size = read_real<size_t>(is);
+        uint64_t layers_size;
+        uint64_t sz;
+        layers_size = read_real<uint64_t>(is);
         this->layer_names_.resize(layers_size);
         this->bottom_id_vecs_.resize(layers_size);
         this->top_id_vecs_.resize(layers_size);
@@ -582,14 +583,14 @@ namespace caffe {
             read_string(is, this->layer_names_[i]);
             
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->bottom_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->bottom_id_vecs_[i][b] = read_real<int>(is);
                 this->bottom_vecs_[i].push_back( this->blobs_[this->bottom_id_vecs_[i][b]].get() );
             }
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->top_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->top_id_vecs_[i][b] = read_real<int>(is);
@@ -695,7 +696,7 @@ namespace caffe {
                 pt.bias_term = (bool)read_real<int>(is);
                 pt.kernel_dim = read_real<int>(is);
                 //
-                sz = read_real<size_t>(is);
+                sz = read_real<uint64_t>(is);
                 vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 for(int b = 0; b<sz; b++){
                     shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -724,7 +725,7 @@ namespace caffe {
 				ReshapeParam pt;
                 pt.axis_ = read_real<int>(is);
                 pt.num_axes_ = read_real<int>(is);
-				num_shape = read_real<size_t>(is);
+				num_shape = read_real<uint64_t>(is);
 				
 				printf( "type:%s,axis:%d,num_axes:%d,shape.size:%d,", 
 					layer_type.c_str(),pt.axis_,pt.num_axes_,num_shape );
@@ -785,7 +786,7 @@ namespace caffe {
                 pt.bias_term = (bool)read_real<int>(is);
                 pt.kernel_dim = read_real<int>(is);
                 //
-                sz = read_real<size_t>(is);
+                sz = read_real<uint64_t>(is);
                 vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 for(int b = 0; b<sz; b++){
                     shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -819,7 +820,7 @@ namespace caffe {
                 pt.post_nms_topn_ = read_real<int>(is);
 				pt.nms_thresh_ = read_real<Dtype>(is);
                 pt.min_size_ = read_real<int>(is);
-				num_ratios = read_real<size_t>(is);
+				num_ratios = read_real<uint64_t>(is);
 
 				printf( "type:%s,base_size:%d,feat_stride:%d,pre_nms_topn:%d,post_nms_topn:%d,nms_thresh:%.4f,min_size:%d,vecRatios.size:%d,", 
 					layer_type.c_str(),pt.base_size_,pt.feat_stride_,pt.pre_nms_topn_,pt.post_nms_topn_,
@@ -832,7 +833,7 @@ namespace caffe {
 				printf( "\n");
                 pt.ratios_ = vecRatios;
 
-				num_scales = read_real<size_t>(is);
+				num_scales = read_real<uint64_t>(is);
 
 				printf( ",vecScales.size:%d,",num_scales);
 				for(b = 0; b < num_scales; b++){
@@ -880,7 +881,7 @@ namespace caffe {
 					layer_type.c_str(),(int)pt.bias_term_,(int)pt.transpose_,pt.num_output_,pt.axis_ );
 
 				//
-                sz = read_real<size_t>(is);
+                sz = read_real<uint64_t>(is);
                 vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 for(int b = 0; b<sz; b++){
                     shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -913,18 +914,24 @@ namespace caffe {
     template <typename Dtype>
     void Net<Dtype>::CopyFrom_detect_int8(const std::string& m_file)
     {
-        std::cout<<"copy net."<<std::endl;
+        //std::cout<<"copy net."<<std::endl;
+		//LOGD("Net::CopyFrom_detect_int8 start...");
         phase_ = caffe::TEST_;
-        
+
+		//LOGD("Net load file:%s",m_file.c_str());
         std::ifstream is(m_file.c_str(), std::ios::binary);
         if(!is.is_open()){
             std::cout<<"cannot load:"<<m_file<<std::endl;
             return ;
         }
-        
-        size_t blobs_size;
+		//LOGD("Net load file end!!");
+
+		//size_t-->uint64_t;
+        uint64_t blobs_size;
         int n, c, w, h;
-        blobs_size = read_real<size_t>(is);
+        blobs_size = read_real<uint64_t>(is);
+		//LOGD("blobs_size:%lld",blobs_size);
+		
         this->blob_names_.resize(blobs_size);
         for(int b = 0; b<blobs_size; b++){
             shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -936,28 +943,30 @@ namespace caffe {
             w=read_real<int>(is);
             h=read_real<int>(is);
             blob_pointer->Reshape(n, c, w, h);
+			
+			//LOGD("b:%d,n:%d,c:%d,w:%d,h:%d,blob_names_:%s", b, n, c, w, h, this->blob_names_[b].c_str());
         }
         
         //
         //printf( "get blobs data...\n" );
+        //LOGD("Net get blobs data start...");
 		net_input_blobs_.push_back(blobs_[0].get());	//input: "data"
 		net_input_blobs_.push_back(blobs_[1].get());	//input: "im_info"
 		net_output_blobs_.push_back(blobs_[blobs_.size()-1].get());		//top: "cls_prob",Softmax
 		net_output_blobs_.push_back(blobs_[blobs_.size()-2].get());		//top: "bbox_pred",
 		net_output_blobs_.push_back(blobs_[blobs_.size()-12].get());	//top: "rois",ProposalLayer;"Split Layer"
 		//printf( "get blobs data end!!\n" );
+		//LOGD("Net get blobs data end...");
         
         //
-        size_t layers_size;
-        size_t sz;
-        layers_size = read_real<size_t>(is);
+        uint64_t layers_size;
+        uint64_t sz;
+        layers_size = read_real<uint64_t>(is);
         this->layer_names_.resize(layers_size);
         this->bottom_id_vecs_.resize(layers_size);
         this->top_id_vecs_.resize(layers_size);
         this->bottom_vecs_.resize(layers_size);
         this->top_vecs_.resize(layers_size);
-
-		
         
         for (unsigned int i = 0; i < layers_size; ++i) {
             //shared_ptr<Layer<Dtype> > layer = other->layers()[i];
@@ -967,14 +976,14 @@ namespace caffe {
             read_string(is, this->layer_names_[i]);
             
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->bottom_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->bottom_id_vecs_[i][b] = read_real<int>(is);
                 this->bottom_vecs_[i].push_back( this->blobs_[this->bottom_id_vecs_[i][b]].get() );
             }
             
-            sz = read_real<size_t>(is);
+            sz = read_real<uint64_t>(is);
             this->top_id_vecs_[i].resize(sz);
             for(int b = 0; b<sz; b++){
                 this->top_id_vecs_[i][b] = read_real<int>(is);
@@ -982,36 +991,53 @@ namespace caffe {
             }
             
             if( layer_type == "Split"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
+				
                 shared_ptr<SplitLayer<Dtype> > sl(new SplitLayer<Dtype>() );
                 //sl->SetUp(other->bottom_vecs()[i], other->top_vecs()[i]);
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
             else if( layer_type == "ReLU"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
+				
                 Dtype p = read_real<Dtype>(is);
                 shared_ptr<ReLULayer<Dtype> > sl(new ReLULayer<Dtype>() );
                 //sl->SetUp(other->bottom_vecs()[i], other->top_vecs()[i]);
                 sl->CopyFrom(p);
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
             else if( layer_type == "Concat"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
+				
                 ConcatParam p;
                 p.concat_axis = read_real<int>(is);
                 shared_ptr<ConcatLayer<Dtype> > sl(new ConcatLayer<Dtype>() );
                 //sl->SetUp(other->bottom_vecs()[i], other->top_vecs()[i]);
                 sl->CopyFrom(p);
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
             else if( layer_type == "Dropout"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
+				
                 shared_ptr<DropoutLayer<Dtype> > sl(new DropoutLayer<Dtype>() );
                 //sl->SetUp(other->bottom_vecs()[i], other->top_vecs()[i]);
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
             else if( layer_type == "Pooling"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
                 PoolingParam pt;
                 pt.global_pooling = (bool)read_real<int>(is);
@@ -1028,17 +1054,24 @@ namespace caffe {
                 //sl->SetUp(other->bottom_vecs()[i], other->top_vecs()[i]);
                 sl->CopyFrom(pt);
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
             else if( layer_type == "Softmax"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
+				
                 int p = read_real<int>(is);
                 shared_ptr<SoftmaxLayer<Dtype> > sl(new SoftmaxLayer<Dtype>() );
                 //sl->SetUp(other->bottom_vecs()[i], other->top_vecs()[i]);
                 sl->CopyFrom(p);
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
             else if( layer_type == "Convolution"){
-                printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+                //printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
                 // --
                 ConvolutionParam pt;
@@ -1080,7 +1113,7 @@ namespace caffe {
                 pt.bias_term = (bool)read_real<int>(is);
                 pt.kernel_dim = read_real<int>(is);
                 //
-                //sz = read_real<size_t>(is);
+                //sz = read_real<uint64_t>(is);
                 //vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 //for(int b = 0; b<sz; b++){
                 //    shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -1104,9 +1137,12 @@ namespace caffe {
                 cl->CopyBlob(layer_blobs);
                 //
                 layers_.push_back(cl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
             }
 			else if( layer_type == "Reshape"){
 				printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
 				int num_shape;
 				vector<int> shape_;
@@ -1114,7 +1150,7 @@ namespace caffe {
 				ReshapeParam pt;
                 pt.axis_ = read_real<int>(is);
                 pt.num_axes_ = read_real<int>(is);
-				num_shape = read_real<size_t>(is);
+				num_shape = read_real<uint64_t>(is);
 				
 				printf( "type:%s,axis:%d,num_axes:%d,shape.size:%d,", 
 					layer_type.c_str(),pt.axis_,pt.num_axes_,num_shape );
@@ -1131,9 +1167,12 @@ namespace caffe {
                 sl->SetUp(this->bottom_vecs()[i], this->top_vecs()[i]);
                 
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
 	        }
 	        else if( layer_type == "Deconvolution"){
 				printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
 				// --
                 ConvolutionParam pt;
@@ -1176,7 +1215,7 @@ namespace caffe {
                 pt.kernel_dim = read_real<int>(is);
                 //
                 //
-                //sz = read_real<size_t>(is);
+                //sz = read_real<uint64_t>(is);
                 //vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 //for(int b = 0; b<sz; b++){
                 //    shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -1200,9 +1239,12 @@ namespace caffe {
                 cl->CopyBlob(layer_blobs);
                 //
                 layers_.push_back(cl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
 	        }
 			else if( layer_type == "ProposalLayer"){
 				printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
 				int b,num_ratios,num_scales;
 				vector<Dtype> vecRatios;
@@ -1215,7 +1257,7 @@ namespace caffe {
                 pt.post_nms_topn_ = read_real<int>(is);
 				pt.nms_thresh_ = read_real<Dtype>(is);
                 pt.min_size_ = read_real<int>(is);
-				num_ratios = read_real<size_t>(is);
+				num_ratios = read_real<uint64_t>(is);
 
 				printf( "type:%s,base_size:%d,feat_stride:%d,pre_nms_topn:%d,post_nms_topn:%d,nms_thresh:%.4f,min_size:%d,vecRatios.size:%d,", 
 					layer_type.c_str(),pt.base_size_,pt.feat_stride_,pt.pre_nms_topn_,pt.post_nms_topn_,
@@ -1228,7 +1270,7 @@ namespace caffe {
 				printf( "\n");
                 pt.ratios_ = vecRatios;
 
-				num_scales = read_real<size_t>(is);
+				num_scales = read_real<uint64_t>(is);
 
 				printf( ",vecScales.size:%d,",num_scales);
 				for(b = 0; b < num_scales; b++){
@@ -1244,9 +1286,12 @@ namespace caffe {
                 sl->SetUp(this->bottom_vecs()[i], this->top_vecs()[i]);
                 
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
 	        }
 			else if( layer_type == "ROIPooling"){
 				printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
 				ROIPoolingParam pt;
                 pt.pooled_width_ = read_real<int>(is);
@@ -1262,9 +1307,12 @@ namespace caffe {
                 sl->SetUp(this->bottom_vecs()[i], this->top_vecs()[i]);
                 
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
 	        }
 			else if( layer_type == "InnerProduct"){
 				printf( "i:%d,type:%s\n", i, layer_type.c_str() );
+				//LOGD("layer i:%d type:%s start...", i, layer_type.c_str() );
 
 				InnerProductParam pt;
                 pt.bias_term_ = (bool)read_real<int>(is);
@@ -1276,7 +1324,7 @@ namespace caffe {
 					layer_type.c_str(),(int)pt.bias_term_,(int)pt.transpose_,pt.num_output_,pt.axis_ );
 
                 //
-                //sz = read_real<size_t>(is);
+                //sz = read_real<uint64_t>(is);
                 //vector<shared_ptr<Blob<Dtype> > > layer_blobs;
                 //for(int b = 0; b<sz; b++){
                 //    shared_ptr<Blob<Dtype> > blob_pointer(new Blob<Dtype>());
@@ -1301,6 +1349,8 @@ namespace caffe {
                 sl->SetUp(this->bottom_vecs()[i], this->top_vecs()[i]);
                 
                 layers_.push_back(sl);
+
+				//LOGD("layer i:%d type:%s end...", i, layer_type.c_str() );
 	        }
            
         }
@@ -1318,7 +1368,7 @@ namespace caffe {
 		Dtype tmp;
 
 		//blob.size
-		write_real<size_t>(os, inBlobs.size());
+		write_real<uint64_t>(os, inBlobs.size());
 		    
 		for(j = 0; j < inBlobs.size(); j++){
 			//write_real<Dtype>(os, blobs[b]->mutable_cpu_data(), blobs[b]->count());
@@ -1374,11 +1424,11 @@ namespace caffe {
 	{
 		//
 		int j,k,n,c,w,h;
-		size_t len,blob_size;
+		uint64_t len,blob_size;
 		Dtype tmp;
 
 		//blob.size
-		blob_size = read_real<size_t>(is);
+		blob_size = read_real<uint64_t>(is);
 		//printf("blob_size:%ld\n",blob_size);
 		    
 		for(j = 0; j < blob_size; j++){

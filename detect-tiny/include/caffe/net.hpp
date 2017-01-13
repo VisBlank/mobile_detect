@@ -159,7 +159,7 @@ namespace caffe {
         // read string //
         static inline void read_string(std::istream &is, std::string &str)
         {
-            size_t sz = read_real<uint32_t>( is );
+            uint64_t sz = read_real<uint32_t>( is );
             str.resize(sz);
             if(sz)
             {
@@ -399,7 +399,7 @@ namespace caffe {
         vector<float> params_weight_decay_;
         vector<bool> has_params_decay_;
         /// The bytes of memory used by this net
-        size_t memory_used_;
+        uint64_t memory_used_;
         /// Whether to compute and display debug info for the net.
         bool debug_info_;
         /// The root net that actually holds the shared layers in data parallelism
